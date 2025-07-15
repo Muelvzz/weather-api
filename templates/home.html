@@ -3,6 +3,13 @@
 
 <div class="container">
     <h1>Weather API Project</h1>
+    <form action="/city" method="post">
+        <div>
+            <label for="city" class="form-label fw-bold"><h2>Choose City</h2></label>
+            <input type="text" id="city" name="city" class="form-control" placeholder="Enter the City name" required>
+        </div>
+        <button type="submit" class=" btn btn-primary">Enter</button>
+    </form>
 </div>
 
 {% endblock %}
