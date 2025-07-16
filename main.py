@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, abort
 import requests
 import json
 
@@ -13,13 +13,22 @@ def home():
 def show_weather():
     if request.method == "POST":
 
-        city_title = request.form.get("city")
-        API_CALL = f"https://api.openweathermap.org/data/2.5/weather?q={city_title}&appid={API_KEY}"
+        try:
+            city_title = request.form.get("city").capitalize()
+            API_CALL = f"https://api.openweathermap.org/data/2.5/weather?q={city_title}&appid={API_KEY}&units=metric"
 
-        response = requests.get(API_CALL)
-        weather_data = response.json()
+            response = requests.get(API_CALL)
+            weather_data = response.json()
 
-        return render_template("show_weather.html", city = city_title, weather_data=weather_data)
+            longitude = weather_data["coord"]["lon"]
+            latitude = weather_data["coord"]["lat"]
+            description = weather_data["weather"][0]["description"]
+            temperature = weather_data["main"]["temp"]
+
+            return render_template("show_weather.html", city=city_title,lon=longitude,lat=latitude,des=description,temp=temperature)
+        
+        except (ValueError, TypeError, KeyError):
+            return render_template("error.html")
     
     else:
         return redirect(url_for("home"))
