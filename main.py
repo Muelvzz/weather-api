@@ -15,17 +15,19 @@ def show_weather():
 
         try:
             city_title = request.form.get("city").capitalize()
-            API_CALL = f"https://api.openweathermap.org/data/2.5/weather?q={city_title}&appid={API_KEY}&units=metric"
+            API_CALL = f"https://api.openweathermap.org/data/2.5/forecast?q={city_title}&appid={API_KEY}&units=metric"
 
             response = requests.get(API_CALL)
             weather_data = response.json()
 
-            longitude = weather_data["coord"]["lon"]
-            latitude = weather_data["coord"]["lat"]
-            description = weather_data["weather"][0]["description"]
-            temperature = weather_data["main"]["temp"]
+            # longitude = weather_data["coord"]["lon"]
+            # latitude = weather_data["coord"]["lat"]
+            # description = weather_data["weather"][0]["description"]
+            # temperature = weather_data["main"]["temp"]
 
-            return render_template("show_weather.html", city=city_title,lon=longitude,lat=latitude,des=description,temp=temperature)
+            print(weather_data)
+
+            return render_template("show_weather.html", city=city_title, )
         
         except (ValueError, TypeError, KeyError):
             return render_template("error.html")

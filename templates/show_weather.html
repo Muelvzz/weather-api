@@ -1,20 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="container">
+<div>
     <h1>Show weather forecast for {{ city }}</h1>
-    <p>
-        Longitude: {{ lon }}
-    </p>
-    <p>
-        Latitude: {{ lat }}
-    </p>
-    <p>
-        Description: {{ des }}
-    </p>
-    <p>
-        Temperature: {{ temp }}
-    </p>
+    <img id="weather-icon" alt="Weather Icon">
+    <div id="temp-div"></div>
+    <div id="wether-info"></div>
+    <div id="hourly-forecast"></div>
 </div>
 
 {% endblock %}
