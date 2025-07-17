@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request, abort
 import requests
-import json
+from datetime import datetime
 
 app = Flask(__name__)
 API_KEY = "84ab1dfa4bef78418d9185402b63e99f"
@@ -20,14 +20,29 @@ def show_weather():
             response = requests.get(API_CALL)
             weather_data = response.json()
 
-            # longitude = weather_data["coord"]["lon"]
-            # latitude = weather_data["coord"]["lat"]
-            # description = weather_data["weather"][0]["description"]
-            # temperature = weather_data["main"]["temp"]
+            current = weather_data['list'][0]
+            temperature = current['main']['temp']
+            description = current['weather'][0]['description']
+            icon = current['weather'][0]['icon']
 
-            print(weather_data)
+            hourly_forecast = []
+            for i in range(8):
+                forecast = weather_data['list'][i]
 
-            return render_template("show_weather.html", city=city_title, )
+                time_str = forecast['dt_txt']
+                time_obj = datetime.strptime(time_str, '%Y-%m-%d %H:%M:%S')
+                formatted_time = time_obj.strftime('%I:%M %p')
+
+                hourly_forecast.append({
+                    'time': formatted_time,
+                    'temp': forecast['main']['temp'],
+                    'description' : forecast['weather'][0]['description'],
+                    'icon' : forecast['weather'][0]['icon']
+                })
+
+            return render_template("show_weather.html", 
+                                   city=city_title, 
+                                   hourly_forecast=hourly_forecast, current_forecast=hourly_forecast[0])
         
         except (ValueError, TypeError, KeyError):
             return render_template("error.html")

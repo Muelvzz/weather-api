@@ -1,12 +1,48 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div>
-    <h1>Show weather forecast for {{ city }}</h1>
-    <img id="weather-icon" alt="Weather Icon">
-    <div id="temp-div"></div>
-    <div id="wether-info"></div>
-    <div id="hourly-forecast"></div>
+<div class="layout-option layout3">
+<div class="layout-title">Weather API Project</div>
+<div class="weather-container">
+    <h1>Weather forecast for {{ city }}</h1>
+    
+    <div class="current-weather">
+        <div class="current-info">
+
+            {%  %}
+            <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="Weather Icon" class="weather-icon">
+
+
+            <div>
+                <div class="current-temp">{{current_forecast.temp}}°C</div>
+                <div class="current-desc">{{current_forecast.description}}</div>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+    
+    <div class="hourly-forecast">
+        <h2>24-Hour Forecast</h2>
+
+        <div class="forecast-list">
+
+            {% for forecast in hourly_forecast[1:] %}
+            <div class="forecast-item">
+                <div class="forecast-left">
+                    <div class="forecast-time">{{ forecast.time }}</div>
+                    <img src="https://openweathermap.org/img/wn/10n@2x.png" alt="Weather Icon" class="forecast-icon">
+                    <div class="forecast-desc">{{ forecast.description }}</div>
+                </div>
+                <div class="forecast-right">
+                    <div class="forecast-temp">{{ forecast.temp }}°C</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
 </div>
 
 {% endblock %}
