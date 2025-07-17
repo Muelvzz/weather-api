@@ -1,48 +1,87 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="layout-option layout3">
-<div class="layout-title">Weather API Project</div>
-<div class="weather-container">
-    <h1>Weather forecast for {{ city }}</h1>
-    
-    <div class="current-weather">
-        <div class="current-info">
+<body class="body-show-weather">
+    <div class="layout-option layout3">
+    <div class="layout-title">Weather API Project</div>
+    <div class="weather-container">
+        <h1>Weather forecast for {{ city }}</h1>
+        
+        <div class="current-weather">
+            <div class="current-info">
 
-            {%  %}
-            <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="Weather Icon" class="weather-icon">
+                {% if hourly_forecast[0].description == "clear sky" %}
+                    <img src="https://openweathermap.org/img/wn/01d@2x.png" alt="Weather Icon" class="weather-icon">
+                {% elif hourly_forecast[0].description == "few clouds" %}
+                    <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="Weather Icon" class="weather-icon">
+                {% elif hourly_forecast[0].description == "scattered clouds" %}
+                    <img src="https://openweathermap.org/img/wn/03d@2x.png" alt="Weather Icon" class="weather-icon">
+                {% elif hourly_forecast[0].description == "overcast clouds" or "broken clouds" %}
+                    <img src="https://openweathermap.org/img/wn/04d@2x.png" alt="Weather Icon" class="weather-icon">
+                {% elif hourly_forecast[0].description == "light rain" %}
+                    <img src="https://openweathermap.org/img/wn/09d@2x.png" alt="Weather Icon" class="weather-icon">
+                {% elif hourly_forecast[0].description == "moderate rain" %}
+                    <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="Weather Icon" class="weather-icon">
+                {% elif hourly_forecast[0].description == "thunderstorm" %}
+                    <img src="https://openweathermap.org/img/wn/11d@2x.png" alt="Weather Icon" class="weather-icon">
+                {% elif hourly_forecast[0].description == "snow" %}
+                    <img src="https://openweathermap.org/img/wn/11d@2x.png" alt="Weather Icon" class="weather-icon">
+                {% else %}
+                    <img src="https://openweathermap.org/img/wn/50d@2x.png" alt="Weather Icon" class="weather-icon">
+                {% endif %}
 
-
-            <div>
-                <div class="current-temp">{{current_forecast.temp}}°C</div>
-                <div class="current-desc">{{current_forecast.description}}</div>
+                <div>
+                    <div class="current-temp">{{current_forecast.temp}}°C</div>
+                    <div class="current-desc">{{current_forecast.description}}</div>
+                    <div class="forecast-time">{{ hourly_forecast[0].time }}</div>
+                </div>
             </div>
-            {% endif %}
+        </div>
+        
+        <div class="hourly-forecast">
+            <h2>24-Hour Forecast</h2>
+
+            <div class="forecast-list">
+
+                {% for forecast in hourly_forecast[1:] %}
+                <div class="forecast-item">
+                    <div class="forecast-left">
+                        <div class="forecast-time">{{ forecast.time }}</div>
+
+
+                        {% if forecast.description == "clear sky" %}
+                            <img src="https://openweathermap.org/img/wn/01d@2x.png" alt="Weather Icon" class="weather-icon">
+                        {% elif forecast.description == "few clouds" %}
+                            <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="Weather Icon" class="weather-icon">
+                        {% elif forecast.description == "scattered clouds" %}
+                            <img src="https://openweathermap.org/img/wn/03d@2x.png" alt="Weather Icon" class="weather-icon">
+                        {% elif forecast.description == "overcast clouds" or "broken clouds" %}
+                            <img src="https://openweathermap.org/img/wn/04d@2x.png" alt="Weather Icon" class="weather-icon">
+                        {% elif forecast.description == "light rain" %}
+                            <img src="https://openweathermap.org/img/wn/09d@2x.png" alt="Weather Icon" class="weather-icon">
+                        {% elif forecast.description == "moderate rain" %}
+                            <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="Weather Icon" class="weather-icon">
+                        {% elif forecast.description == "thunderstorm" %}
+                            <img src="https://openweathermap.org/img/wn/11d@2x.png" alt="Weather Icon" class="weather-icon">
+                        {% elif forecast.description == "snow" %}
+                            <img src="https://openweathermap.org/img/wn/11d@2x.png" alt="Weather Icon" class="weather-icon">
+                        {% else %}
+                            <img src="https://openweathermap.org/img/wn/50d@2x.png" alt="Weather Icon" class="weather-icon">
+                        {% endif %}
+
+
+                        <div class="forecast-desc">{{ forecast.description }}</div>
+                    </div>
+                    <div class="forecast-right">
+                        <div class="forecast-temp">{{ forecast.temp }}°C</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
 
         </div>
     </div>
-    
-    <div class="hourly-forecast">
-        <h2>24-Hour Forecast</h2>
-
-        <div class="forecast-list">
-
-            {% for forecast in hourly_forecast[1:] %}
-            <div class="forecast-item">
-                <div class="forecast-left">
-                    <div class="forecast-time">{{ forecast.time }}</div>
-                    <img src="https://openweathermap.org/img/wn/10n@2x.png" alt="Weather Icon" class="forecast-icon">
-                    <div class="forecast-desc">{{ forecast.description }}</div>
-                </div>
-                <div class="forecast-right">
-                    <div class="forecast-temp">{{ forecast.temp }}°C</div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-
     </div>
-</div>
-</div>
+</body>
 
 {% endblock %}

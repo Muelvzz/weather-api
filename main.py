@@ -14,16 +14,11 @@ def show_weather():
     if request.method == "POST":
 
         try:
-            city_title = request.form.get("city").capitalize()
+            city_title = request.form.get("city").title()
             API_CALL = f"https://api.openweathermap.org/data/2.5/forecast?q={city_title}&appid={API_KEY}&units=metric"
 
             response = requests.get(API_CALL)
             weather_data = response.json()
-
-            current = weather_data['list'][0]
-            temperature = current['main']['temp']
-            description = current['weather'][0]['description']
-            icon = current['weather'][0]['icon']
 
             hourly_forecast = []
             for i in range(8):
